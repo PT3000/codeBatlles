@@ -2,6 +2,30 @@
 
 실시간 1:1 코드 배틀 플랫폼입니다. 사용자는 로그인 후 자동 매칭 또는 특정 사용자 배틀 신청을 통해 같은 문제를 풀고, 먼저 정답 판정을 받은 사용자가 승리합니다.
 
+## 빠른 시작
+
+저장소를 처음 받은 뒤 백엔드 가상환경을 생성하고 패키지를 설치합니다.
+
+```powershell
+cd backend
+py -3.14 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+FastAPI 개발 서버 실행:
+
+```powershell
+uvicorn app.main:app --reload
+```
+
+접속 확인:
+
+```text
+http://127.0.0.1:8000
+http://127.0.0.1:8000/docs
+```
+
 ## 기술 스택
 
 | 구분 | 기술 |

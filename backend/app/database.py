@@ -1,12 +1,25 @@
-from datetime import datetime, timezone, timedelta
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
+from sqlalchemy.orm import DeclarativeBase
 
-def now() -> datetime:
-    return datetime.now(timezone.utc)
+from app.config import settings
 
-def calc_expiry(seconds: int) -> datetime:
-    return now() + timedelta(seconds=seconds)
+engine = create_async_engine(
+    settings.DATABASE_URL,
+    echo=True,
+)
 
-def format(dt: datetime, fmt: str = "%Y-%m-%d %H:%M:%S") -> str:
-    if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    return dt.strftime(fmt)
+AsyncSessionLocal = async_sessionmaker(
+    engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+)
+
+class Base(DeclarativeBase):
+    pass
+
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        try:
+            yield session
+        finally:
+            await session.close()

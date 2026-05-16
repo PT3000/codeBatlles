@@ -1,38 +1,31 @@
-import Optional
-from fastapi_users import schemas
-from pydantic import BaseModel, EmailStr, field_validator
+from typing import Optional
+from pydantic import BaseModel
 import re
 
-class UserCreate(schemas.BaseUserCreate):
-    email: EmailStr
-    password: str
-    username: str
 
-    @field_validator("password")
-    @classmethod
-    def validate_password(cls, v):
+class RegisterRequest(BaseModel):
+    user_id: str
+    password: str
+    nickname: str
+
+    @staticmethod
+    def validate_password(v: str) -> str:
         if not re.match(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$", v):
             raise ValueError("비밀번호는 영문+숫자 조합 8자 이상이어야 합니다.")
         return v
 
-    @field_validator("username")
-    @classmethod
-    def validate_username(cls, v):
+    @staticmethod
+    def validate_user_id(v: str) -> str:
         if not re.match(r"^[a-zA-Z0-9_]{3,20}$", v):
             raise ValueError("아이디는 영문/숫자/밑줄 3~20자여야 합니다.")
         return v
 
-class UserRead(schemas.BaseUser[int]):
-    id: int
-    email: EmailStr
-    username: str
-    tier: str
-    is_admin: bool
-    is_online: bool
 
-    class Config:
-        from_attributes = True
+class LoginRequest(BaseModel):
+    user_id: str
+    password: str
 
-class UserUpdate(schemas.BaseUserUpdate):
-    username: Optional[str] = None
-    tier: Optional[str] = None
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"

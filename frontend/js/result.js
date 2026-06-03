@@ -34,7 +34,7 @@ function renderResult(data) {
     document.getElementById('my-sub-time').textContent =
       mySub.execution_time != null ? `${mySub.execution_time}초` : '-';
     document.getElementById('my-sub-memory').textContent =
-      mySub.memory_usage != null ? `${mySub.memory_usage} KB` : '-';
+      mySub.memory_usage != null ? `${mySub.memory_usage} KB` : '측정 안 됨';
   }
 
   // 상대 마지막 제출
@@ -47,7 +47,7 @@ function renderResult(data) {
     document.getElementById('opp-sub-time').textContent =
       oppSub.execution_time != null ? `${oppSub.execution_time}초` : '-';
     document.getElementById('opp-sub-memory').textContent =
-      oppSub.memory_usage != null ? `${oppSub.memory_usage} KB` : '-';
+      oppSub.memory_usage != null ? `${oppSub.memory_usage} KB` : '측정 안 됨';
   }
 
   // 전적 변화 (현재 전적 기준 역산)

@@ -141,7 +141,11 @@ async def list_all_problems(
     db: AsyncSession = Depends(get_db),
     admin=Depends(get_current_admin),
 ):
-    result = await db.execute(select(Problem).order_by(Problem.id.asc()))
+    result = await db.execute(
+        select(Problem)
+        .where(Problem.is_deleted == False)
+        .order_by(Problem.id.asc())
+    )
     return result.scalars().all()
 
 

@@ -451,6 +451,7 @@ class LocalExecutor:
                     }
 
             # 실행 (테스트케이스마다)
+            total_time = 0.0
             for tc in test_cases:
                 stdin = getattr(tc, "input_data", "") or ""
                 expected = getattr(tc, "expected_output", "") or ""
@@ -466,15 +467,18 @@ class LocalExecutor:
                         "memory": run.get("memory"),
                     }
 
+                if run.get("time") is not None:
+                    total_time += float(run["time"])
+
                 got  = _normalize_output(run["stdout"])
                 want = _normalize_output(expected)
                 if got != want:
                     return {
                         "status": "Wrong Answer",
-                        "time": run["time"],
+                        "time": round(total_time, 3),
                         "memory": None,
                     }
 
-            return {"status": "Accepted", "time": None, "memory": None}
+            return {"status": "Accepted", "time": round(total_time, 3), "memory": None}
         finally:
             shutil.rmtree(tmpdir, ignore_errors=True)

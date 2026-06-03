@@ -86,6 +86,75 @@ tr:hover td {
   color: #16a34a;
 }
 
+.status-medium {
+  color: #ca8a04;
+}
+
+.status-hard,
+.status-deleted {
+  color: #dc2626;
+}
+
+.empty-cell {
+  color: #717786;
+  text-align: center;
+  padding: 1rem;
+}
+
+.test-case-list {
+  display: grid;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.test-case-row {
+  border: 1px solid #e5e2e1;
+  border-radius: 8px;
+  padding: 0.85rem;
+  background: #fcf9f8;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.test-case-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #717786;
+  font-size: 0.78rem;
+}
+
+.test-case-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.test-case-preview strong {
+  display: block;
+  color: #717786;
+  font-size: 0.72rem;
+  margin-bottom: 0.25rem;
+}
+
+.test-case-preview pre {
+  min-height: 48px;
+  margin: 0;
+  padding: 0.6rem;
+  border: 1px solid #e5e2e1;
+  border-radius: 6px;
+  background: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.btn-test-case-delete {
+  justify-self: end;
+}
+
 .form-label {
   font-size: 0.8rem;
   color: #717786;
@@ -204,5 +273,9 @@ tr:hover td {
 
   .card {
     padding: 1rem;
+  }
+
+  .test-case-preview {
+    grid-template-columns: 1fr;
   }
 }

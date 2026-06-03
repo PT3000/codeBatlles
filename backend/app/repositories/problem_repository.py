@@ -1,4 +1,4 @@
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.problem import Problem
@@ -88,6 +88,17 @@ class ProblemRepository:
         await db.commit()
         await db.refresh(tc)
         return tc
+
+    @staticmethod
+    async def delete_test_case(db: AsyncSession, problem_id: int, test_case_id: int) -> bool:
+        result = await db.execute(
+            delete(TestCase).where(
+                TestCase.id == test_case_id,
+                TestCase.problem_id == problem_id,
+            )
+        )
+        await db.commit()
+        return bool(result.rowcount)
 
     @staticmethod
     async def delete_problem(db: AsyncSession, problem_id: int) -> None:

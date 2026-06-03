@@ -159,6 +159,22 @@ async def add_test_case(
         case_order=body.case_order,
     )
 
+@router.delete("/{problem_id}/test-cases/{test_case_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_test_case(
+    problem_id: int,
+    test_case_id: int,
+    db: AsyncSession = Depends(get_db),
+    admin=Depends(get_current_admin),
+):
+    """Delete a test case from an existing problem (admin only)."""
+    problem = await ProblemRepository.get_problem(db, problem_id)
+    if not problem:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="문제를 찾을 수 없습니다.")
+
+    deleted = await ProblemRepository.delete_test_case(db, problem_id, test_case_id)
+    if not deleted:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="테스트케이스를 찾을 수 없습니다.")
+
 @router.post("/{problem_id}/test-cases/upload", status_code=status.HTTP_201_CREATED)
 async def upload_test_cases_zip(
     problem_id: int,
